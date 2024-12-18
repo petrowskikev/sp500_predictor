@@ -1,9 +1,6 @@
 import pandas as pd
 import numpy as np
 
-import pandas as pd
-import numpy as np
-
 
 def add_features_to_sp500_data(input_path: str,
                                output_path: str = "../data/sp500_data_cleaned_and_feature_engineered.csv"):
@@ -22,7 +19,8 @@ def add_features_to_sp500_data(input_path: str,
     df["Bollinger_Upper"] = df["SMA_5"] + 2 * df["STD_20"]
     df["Bollinger_Lower"] = df["SMA_5"] - 2 * df["STD_20"]
     print(
-        "Features 'Bollinger_Upper' und 'Bollinger_Lower' hinzugefügt: Zeigen die obere und untere Grenze basierend auf Volatilität.")
+        "Features 'Bollinger_Upper' und 'Bollinger_Lower' hinzugefügt: Zeigen die obere und untere Grenze basierend "
+        "auf Volatilität.")
 
     # 3. Relative Strength Index (RSI)
     def calculate_rsi(series, period=14):
@@ -39,7 +37,8 @@ def add_features_to_sp500_data(input_path: str,
 
     df["RSI_14"] = calculate_rsi(df["Close"], period=14)
     print(
-        "Feature 'RSI_14' hinzugefügt: Der Relative Strength Index zeigt überkaufte (>70) oder überverkaufte (<30) Situationen.")
+        "Feature 'RSI_14' hinzugefügt: Der Relative Strength Index zeigt überkaufte (>70) oder überverkaufte (<30) "
+        "Situationen.")
 
     # 4. MACD (Moving Average Convergence Divergence)
     short_window = 12
@@ -51,7 +50,8 @@ def add_features_to_sp500_data(input_path: str,
     df["MACD"] = df["EMA_12"] - df["EMA_26"]  # MACD-Linie
     df["MACD_Signal"] = df["MACD"].ewm(span=signal_window, min_periods=1).mean()  # Signal-Linie
     print(
-        "Features 'MACD' und 'MACD_Signal' hinzugefügt: Zeigen Trendumkehrsignale basierend auf exponentiellen Durchschnitten.")
+        "Features 'MACD' und 'MACD_Signal' hinzugefügt: Zeigen Trendumkehrsignale basierend auf exponentiellen "
+        "Durchschnitten.")
 
     # 5. Rate of Change (ROC)
     df["ROC_10"] = df["Close"].pct_change(periods=10) * 100  # Prozentuale Änderung über 10 Tage
